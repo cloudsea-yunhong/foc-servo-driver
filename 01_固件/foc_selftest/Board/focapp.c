@@ -799,6 +799,21 @@ static void handle_command(const char *cmd)
     case 't': case 'T': enter_torque(v);  break;
     case 'v': case 'V': enter_velocity(v);break;
     case 'p': case 'P': enter_position(v);break;
+    case 'r': case 'R':
+    {
+        /* R<turns> : move RELATIVE to where we are now.
+         *   R1   -> one more revolution
+         *   R-2  -> two revolutions backwards
+         *   R0.5 -> half a revolution
+         * This removes the need to read the telemetry and do the
+         * absolute-angle arithmetic by hand before every demo. */
+        float turns = (float)atof(&cmd[1]);
+
+        if (turns > 50.0f)  { turns = 50.0f;  }
+        if (turns < -50.0f) { turns = -50.0f; }
+        enter_position(s_mech_angle + turns * FOC_2PI);
+        break;
+    }
     case 'g': case 'G':
     {
         /* G<kp_milli>,<ki_milli>  e.g. G1500,100 -> kp=1.5 ki=0.1 */
@@ -845,7 +860,7 @@ static void handle_command(const char *cmd)
                    (int)(s_ctrl.pi_vel.kp*1000.0f), (int)(s_ctrl.pi_vel.ki*1000.0f));
         break;
     case 'h': case 'H':
-        log_printf("cmd: A O S T<A> V<rad/s> P<rad> G<kp,ki> K<kp,ki> F<ms> Q\r\n");
+        log_printf("cmd: A O S T<A> V<rad/s> P<rad abs> R<turns rel> G K F Q\r\n");
         break;
     default:
         log_printf("ERR: unknown cmd '%c'\r\n", c);
