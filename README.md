@@ -1,8 +1,8 @@
 # 无刷电机 FOC 三环伺服驱动器
 
-> STM32F407 + DRV8316 + MT6701 | 手写 Clarke / Park / SVPWM | 电流环 / 速度环 / 位置环全闭环
+> STM32F407 + DRV8316 + MT6701 | Clarke / Park / SVPWM | 电流环 / 速度环 / 位置环全闭环
 
-一个从零搭建的无刷电机磁场定向控制（FOC）伺服驱动器。**算法全部手写，未使用 SimpleFOC、ODrive 等开源库。**
+一个从零搭建的无刷电机磁场定向控制（FOC）伺服驱动器。
 
 ---
 
@@ -125,7 +125,7 @@ Torque= 200mA Ang= 47 Pos=  1002 State=TORQUE Cur= 104,  -5,  -5mA
 
 ### ① SVPWM 三相 PWM 波形（20 kHz）
 
-三相占空比按正弦变化、相位差 120° —— **这是手写 SVPWM 最直接的硬件证据**。
+三相占空比按正弦变化、相位差 120° —— **这是 SVPWM 最直接的硬件证据**。
 
 ![SVPWM](<02_文档/测试数据/SVPWM_三相PWM波形_20kHz.png>)
 
